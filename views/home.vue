@@ -1,5 +1,5 @@
 <template>
   <div>
-    Hello Vue!
+    home
   </div>
 </template>

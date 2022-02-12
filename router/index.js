@@ -1,15 +1,45 @@
 import Vue from 'vue'
+import VueRouter from 'vue-router'
 import Router from 'vue-router'
-import index from '@/components/index'
-
+import home from '../views/home.vue'
+import layout from '../views/layout.vue'
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'index',
-      component: index
-    }
-  ]
+const routes = [
+  {
+    path: '/',
+    name: 'Layout',
+    component: layout,
+    children: [
+      {
+        path: '/',
+        name: 'home',
+        component: home
+      },
+      {
+        path: '/mine',
+        name: 'Mine',
+        component: () => import('../views/mine.vue')
+      },
+      {
+        path: '/search',
+        name: 'Search',
+        component: () => import('../views/search.vue')
+      },
+      {
+        path: '/topic',
+        name: 'Topic',
+        component: () => import('../views/topic.vue')
+      },
+    ]
+  }
+]
+
+const router = new VueRouter({
+  mode: 'hash',
+  base: process.env.BASE_URL,
+  routes,
+  linkActiveClass: "active"
 })
+
+export default router
