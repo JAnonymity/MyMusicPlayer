@@ -32,11 +32,16 @@ const routes = [
         component: () => import('../views/topic.vue')
       },
     ]
+  },
+  {
+    path: '/musicListMore',
+    name: 'musicMore',
+    component: () => import('../views/home/musicListMore.vue')
   }
 ]
 
 const router = new VueRouter({
-  mode: 'hash',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
   linkActiveClass: "active"

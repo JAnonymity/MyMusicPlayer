@@ -25,6 +25,7 @@
 
 <style scoped>
   .top-nav {
+    width: calc(100% + 10px);
     background-color: #fff;
   }
 

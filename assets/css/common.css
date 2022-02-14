@@ -5,6 +5,12 @@ body{
   background-color: #f1f1f1;
   color: #555;
   height: 100%;
+  overflow-x: hidden;
+}
+
+a{
+  color: black;
+  text-decoration: none;
 }
 
 img{
@@ -15,3 +21,4 @@ img{
 .active{
   color:red
 }
+
