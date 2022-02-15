@@ -3,20 +3,11 @@
     <div class="block-padding">
       <!-- 推荐歌单 -->
       <div class="title">
-        <el-page-header @back="goBack" :content="recommendBox.name">
+        <el-page-header @back="goBack" :content="albumsMusic.album.name">
         </el-page-header>
       </div>
-      <div class="recommendTitle">
-        <el-image :src="recommendBox.coverImgUrl"></el-image>
-      </div>
       <el-row :gutter="10">
-        <el-col :span="8" v-for="(item,index) in recommendList" :key="index">
-          <router-link tag="div" class="image"
-            :to="{name:'player',params:{id:item.id,name:item.name,writer:item.ar[0].name,image:item.al.picUrl}}">
-            <el-image :src="item.al.picUrl" lazy></el-image>
-            <h5>{{item.al.name}}</h5>
-          </router-link>
-        </el-col>
+
       </el-row>
     </div>
   </div>
@@ -27,26 +18,24 @@
   export default {
     data () {
       return {
-        recommendList: {},
-        recommendBox: {},
+        albumsMusic: {},
       }
     },
     mounted () {
-      this.getRecommendMusic();
+      this.getAlbumsMusic();
     },
     methods: {
-      // 获取歌单详情
-      getRecommendMusic () {
+      // 获取专辑内容
+      getAlbumsMusic () {
         axios({
           method: 'get',
-          url: '/playlist/detail',
+          url: '/album',
           params: {
             id: this.$route.params.id
           }
         }).then(res => {
-          this.recommendBox = res.data.playlist;
-          this.recommendList = res.data.playlist.tracks;
-          console.log(this.recommendList);
+          this.albumsMusic = res.data;
+          console.log(this.albumsMusic);
         })
       },
       goBack () {

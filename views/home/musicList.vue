@@ -3,9 +3,7 @@
   <div>
     <!-- 父传子组件 -->
     <musicListView :personList="recommendedList" :musicList="latestAlbum" :newSongs="ChinesenewSongs"
-      :images="bannerImages">
-
-    </musicListView>
+      :images="bannerImages"></musicListView>
   </div>
 </template>
 
@@ -19,6 +17,7 @@
     data () {
       return {
         recommendedList: [],
+        recommendedSongs: [],
         latestAlbum: [],
         ChinesenewSongs: [],
         bannerImages: [],
@@ -29,27 +28,26 @@
     },
     methods: {
       getList () {
+        // 推荐歌单
         axios({
           method: 'get',
-          url: '/personalized',
-          params: {
-            limit: 7
-          }
+          url: '/recommend/resource',
         }).then(res => {
-          this.recommendedList = res.data.result;
-          this.recommendedList.splice(1, 1);
-          console.log(this.recommendedList);
+          this.recommendedList = res.data.recommend;
+          //this.recommendedList.splice(0, 12);
+          //console.log(this.recommendedList);
         })
-
+        // 新专辑
         axios({
           method: 'get',
           url: '/album/newest'
         }).then(res => {
           this.latestAlbum = res.data.albums;
           this.latestAlbum.shift();
-          //console.log(this.latestAlbum);
+          console.log(this.latestAlbum);
         })
 
+        // 华语新歌
         axios({
           method: 'get',
           url: '/top/song',
@@ -61,7 +59,7 @@
           this.ChinesenewSongs.splice(0, 50);
           // console.log(this.ChinesenewSongs);
         })
-
+        // 轮播图
         axios({
           method: 'get',
           url: '/banner',
@@ -72,6 +70,8 @@
           this.bannerImages = res.data.banners;
           // console.log(this.bannerImages);
         })
+
+
       }
     }
   }

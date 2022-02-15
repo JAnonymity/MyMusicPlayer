@@ -4,7 +4,7 @@
     <!-- 轮播图1 end-->
     <div class="block-padding">
       <!-- 轮播图1 start-->
-      <el-carousel :interval="5000" indicator-position="none" arrow="never" height="100px">
+      <el-carousel :interval="5000" indicator-position="none" arrow="never" height="120px">
         <el-carousel-item v-for="item in images.slice(0,5)" :key="item.targetId">
           <div class="image">
             <img :src="item.imageUrl">
@@ -17,10 +17,10 @@
       </div>
       <el-row :gutter="10">
         <el-col :span="8" v-for="(item,index) in personList" :key="index">
-          <div class="image">
+          <router-link tag="div" class="image" :to="{name:'musicDetails',params:{id:item.id}}">
             <img :src="item.picUrl">
             <h5>{{item.name}}</h5>
-          </div>
+          </router-link>
         </el-col>
       </el-row>
       <!-- 新专辑 -->
@@ -30,11 +30,12 @@
       </div>
       <el-row :gutter="10">
         <el-col :span="8" v-for="(item,index) in musicList.slice(0,3)" :key="index">
-          <div class="image">
+          <!-- <router-link tag="div" class="image"
+            :to="{name:'player',params:{id:item.id,name:item.name,writer:item.ar[0].name,image:item.al.picUrl}}">
             <img :src="item.picUrl">
             <h5>{{item.name}}</h5>
             <el-tag type="success">{{item.artists[0].name}}</el-tag>
-          </div>
+          </router-link> -->
         </el-col>
       </el-row>
       <el-row :gutter="10">
@@ -47,7 +48,7 @@
         </el-col>
       </el-row>
       <!-- 轮播图2 start-->
-      <el-carousel :interval="5000" indicator-position="none" arrow="never" height="100px">
+      <el-carousel :interval="5000" indicator-position="none" arrow="never" height="120px">
         <el-carousel-item v-for="item in images.slice(5,10)" :key="item.targetId">
           <div class="image">
             <img :src="item.imageUrl">
@@ -56,17 +57,18 @@
       </el-carousel>
       <!-- 轮播图2 end-->
 
+      <!-- 华语新歌 -->
       <div class="title">
         <h3>华语新歌</h3>
         <router-link :to="{name:'musicMore',params:{songType:'2'}}" tag="el-link">更多</router-link>
       </div>
       <el-row :gutter="10">
         <el-col :span="8" v-for="(item,index) in newSongs.slice(0,3)" :key="index">
-          <div class="image">
+          <router-link tag="div" class="image" :to="{name:'albums',params:{id:item.id}}">
             <img :src="item.album.picUrl">
             <h5>{{item.name}}</h5>
             <el-tag type="success">{{item.artists[0].name}}</el-tag>
-          </div>
+          </router-link>
         </el-col>
       </el-row>
       <el-row :gutter="10">
@@ -112,6 +114,7 @@
       }
     },
     props: {
+      // 推荐歌单列表
       personList: {
         type: Array,
         default: function () {
