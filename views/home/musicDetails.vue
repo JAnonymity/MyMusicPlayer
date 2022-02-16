@@ -7,13 +7,21 @@
         </el-page-header>
       </div>
       <div class="recommendTitle">
-        <el-image :src="recommendBox.coverImgUrl"></el-image>
+        <el-image :src="recommendBox.coverImgUrl">
+          <div slot="error" class="image-slot">
+            <i class="el-icon-picture-outline"></i>
+          </div>
+        </el-image>
       </div>
       <el-row :gutter="10">
         <el-col :span="8" v-for="(item,index) in recommendList" :key="index">
           <router-link tag="div" class="image"
             :to="{name:'player',params:{id:item.id,name:item.name,writer:item.ar[0].name,image:item.al.picUrl}}">
-            <el-image :src="item.al.picUrl" lazy></el-image>
+            <el-image :src="item.al.picUrl" lazy>
+              <div slot="error" class="image-slot">
+                <i class="el-icon-picture-outline"></i>
+              </div>
+            </el-image>
             <h5>{{item.al.name}}</h5>
           </router-link>
         </el-col>

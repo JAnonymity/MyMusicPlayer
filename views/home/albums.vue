@@ -3,11 +3,21 @@
     <div class="block-padding">
       <!-- 推荐歌单 -->
       <div class="title">
-        <el-page-header @back="goBack" :content="albumsMusic.album.name">
+        <el-page-header @back="goBack" :content="albumsMusic.name">
         </el-page-header>
       </div>
       <el-row :gutter="10">
-
+        <el-col :span="8" v-for="(item,index) in albumsMusicList" :key="index">
+          <router-link tag="div" class="image"
+            :to="{name:'player',params:{id:item.id,name:item.name,writer:item.ar[0].name,image:item.al.picUrl}}">
+            <el-image :src="item.al.picUrl" lazy>
+              <div slot="placeHolder" class="image-slot">
+                <i class="el-icon-picture-outline"></i>
+              </div>
+            </el-image>
+            <h5>{{item.name}}</h5>
+          </router-link>
+        </el-col>
       </el-row>
     </div>
   </div>
@@ -18,10 +28,11 @@
   export default {
     data () {
       return {
+        albumsMusicList: [],
         albumsMusic: {},
       }
     },
-    mounted () {
+    created () {
       this.getAlbumsMusic();
     },
     methods: {
@@ -34,13 +45,16 @@
             id: this.$route.params.id
           }
         }).then(res => {
-          this.albumsMusic = res.data;
-          console.log(this.albumsMusic);
+          this.albumsMusicList = res.data.songs;
+          this.albumsMusic = res.data.album;
+          //console.log(this.albumsMusic);
+          console.log(this.albumsMusicList);
+          this.albumsMusic.name = this.albumsMusic.name.substring(0, 15) + '...';
         })
       },
       goBack () {
         this.$router.push('/');
-      }
+      },
     }
   }
 </script>
@@ -63,7 +77,7 @@
     margin: 20px 0;
   }
 
-  .recommendTitle {
+  .ablumsTitle {
     margin: 10px 0;
   }
 </style>

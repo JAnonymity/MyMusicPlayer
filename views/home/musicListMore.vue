@@ -3,22 +3,34 @@
     <div class="block-padding">
       <el-page-header class="backBox" @back="goBack" content="更多页面">
       </el-page-header>
+      <!-- 新专辑更多页面 -->
       <el-row :gutter="10" v-if="$route.params.songType==1">
-        <el-col :span="8" v-for="(item,index) in musicList" :key="index">
-          <div class="image">
-            <el-image :key="item.picUrl" :src="item.picUrl" lazy></el-image>
+        <el-col :span="8" v-for="(item,index) in albumList" :key="index">
+          <router-link tag="div" class="image"
+            :to="{name:'player',params:{id:item.id,name:item.name,writer:item.artists[0].name,image:item.picUrl}}">
+            <el-image :key="item.picUrl" :src="item.picUrl" lazy>
+              <div slot="placeHolder" class="image-slot">
+                <i class="el-icon-picture-outline"></i>
+              </div>
+            </el-image>
             <h5>{{item.name}}</h5>
             <el-tag type="success">{{item.artists[0].name}}</el-tag>
-          </div>
+          </router-link>
         </el-col>
       </el-row>
+      <!-- 华语新歌 更多页面 -->
       <el-row :gutter="10" v-if="$route.params.songType==2">
         <el-col :span="8" v-for="(item,index) in chineseList" :key="index">
-          <div class="image">
-            <el-image :key="item.album.picUrl" :src="item.album.picUrl" lazy></el-image>
+          <router-link tag="div" class="image"
+            :to="{name:'player',params:{id:item.id,name:item.name,writer:item.artists[0].name,image:item.album.picUrl}}">
+            <el-image :key="item.album.picUrl" :src="item.album.picUrl" lazy>
+              <div slot="placeHolder" class="image-slot">
+                <i class="el-icon-picture-outline"></i>
+              </div>
+            </el-image>
             <h5>{{item.name}}</h5>
             <el-tag type="success">{{item.artists[0].name}}</el-tag>
-          </div>
+          </router-link>
         </el-col>
       </el-row>
       <el-backtop></el-backtop>
@@ -33,7 +45,7 @@
     name: 'more',
     data () {
       return {
-        musicList: [],
+        albumList: [],
         chineseList: []
       }
     },
@@ -46,7 +58,8 @@
           method: 'get',
           url: '/album/newest'
         }).then(res => {
-          this.musicList = res.data.albums;
+          this.albumList = res.data.albums;
+          //console.log(this.albumList);
         })
 
         axios({
@@ -58,6 +71,7 @@
         }).then(res => {
           this.chineseList = res.data.data;
           this.chineseList.splice(0, 50);
+          console.log(this.chineseList);
         })
       },
       goBack () {

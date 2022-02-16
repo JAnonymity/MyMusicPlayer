@@ -52,6 +52,11 @@ const routes = [
     path: '/albums',
     name: 'albums',
     component: () => import('../views/home/albums.vue')
+  },
+  {
+    path: '/radioDetails',
+    name: 'radioDetails',
+    component: () => import('../views/home/radioDetails.vue')
   }
 ]
 

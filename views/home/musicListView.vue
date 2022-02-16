@@ -23,6 +23,7 @@
           </router-link>
         </el-col>
       </el-row>
+
       <!-- 新专辑 -->
       <div class="title">
         <h3>新专辑</h3>
@@ -30,21 +31,20 @@
       </div>
       <el-row :gutter="10">
         <el-col :span="8" v-for="(item,index) in musicList.slice(0,3)" :key="index">
-          <!-- <router-link tag="div" class="image"
-            :to="{name:'player',params:{id:item.id,name:item.name,writer:item.ar[0].name,image:item.al.picUrl}}">
-            <img :src="item.picUrl">
+          <router-link tag="div" class="image" :to="{name:'albums',params:{id:item.id}}">
+            <el-image :src="item.picUrl"></el-image>
             <h5>{{item.name}}</h5>
-            <el-tag type="success">{{item.artists[0].name}}</el-tag>
-          </router-link> -->
+            <el-tag type="success">{{item.artist.name}}</el-tag>
+          </router-link>
         </el-col>
       </el-row>
       <el-row :gutter="10">
         <el-col :span="8" v-for="(item,index) in musicList.slice(4,7)" :key="index">
-          <div class="image">
-            <img :src="item.picUrl">
+          <router-link tag="div" class="image" :to="{name:'albums',params:{id:item.id}}">
+            <el-image :src="item.picUrl"></el-image>
             <h5>{{item.name}}</h5>
-            <el-tag type="info">{{item.artists[0].name}}</el-tag>
-          </div>
+            <el-tag type="success">{{item.artist.name}}</el-tag>
+          </router-link>
         </el-col>
       </el-row>
       <!-- 轮播图2 start-->
@@ -64,7 +64,8 @@
       </div>
       <el-row :gutter="10">
         <el-col :span="8" v-for="(item,index) in newSongs.slice(0,3)" :key="index">
-          <router-link tag="div" class="image" :to="{name:'albums',params:{id:item.id}}">
+          <router-link tag="div" class="image"
+            :to="{name:'player',params:{id:item.id,name:item.name,writer:item.artists[0].name,image:item.album.picUrl}}">
             <img :src="item.album.picUrl">
             <h5>{{item.name}}</h5>
             <el-tag type="success">{{item.artists[0].name}}</el-tag>
@@ -73,35 +74,32 @@
       </el-row>
       <el-row :gutter="10">
         <el-col :span="8" v-for="(item,index) in newSongs.slice(4,7)" :key="index">
-          <div class="image">
+          <router-link tag="div" class="image"
+            :to="{name:'player',params:{id:item.id,name:item.name,writer:item.artists[0].name,image:item.album.picUrl}}">
             <img :src="item.album.picUrl">
             <h5>{{item.name}}</h5>
-            <el-tag type="info">{{item.artists[0].name}}</el-tag>
-          </div>
+            <el-tag type="success">{{item.artists[0].name}}</el-tag>
+          </router-link>
         </el-col>
       </el-row>
-      <!-- <div class="title">
-        <h3>新专辑</h3>
-        <router-link :to="{name:'musicMore',params:{status:2}}" tag="el-link" replace>更多</router-link>
-      </div>
-      <el-row :gutter="10">
-        <el-col :span="8" v-for="(item,index) in musicList.slice(0,3)" :key="index">
-          <div class="image">
-            <img :src="item.picUrl">
-            <h5>{{item.name}}</h5>
-            <el-tag type="success">{{item.company}}</el-tag>
-          </div>
-        </el-col>
-      </el-row>
-      <el-row :gutter="10">
-        <el-col :span="8" v-for="(item,index) in musicList.slice(4,7)" :key="index">
-          <div class="image">
-            <img :src="item.picUrl">
-            <h5>{{item.name}}</h5>
-            <el-tag type="info">{{item.company}}</el-tag>
-          </div>
-        </el-col>
-      </el-row> -->
+      <!-- 音乐电台 -->
+      <el-tabs v-model="activeName" type="card" :stretch="true">
+        <el-tab-pane :name="radioTitle[index]" :label="radioTitle[index]" v-for="(item,index) in radioList"
+          :key="index">
+          <router-link tag="div" :to="{name:'radioDetails',params:{id:item[index].id}}" class="radioes"
+            v-for="(dj,index) in item" :key="index">
+            <el-row>
+              <el-col :span="4">
+                <el-image :src="dj.picUrl" class="radioImage"></el-image>
+              </el-col>
+              <el-col :span="20" class="tabsTitle">
+                <div>{{dj.desc}}</div>
+                <span>{{dj.name}}</span>
+              </el-col>
+            </el-row>
+          </router-link>
+        </el-tab-pane>
+      </el-tabs>
     </div>
   </div>
 </template>
@@ -111,37 +109,31 @@
     name: 'musicListView',
     data () {
       return {
+        radioTitle: ["人文历史", "音乐推荐", "情感"],
+        activeName: "人文历史"
       }
     },
     props: {
       // 推荐歌单列表
       personList: {
         type: Array,
-        default: function () {
-          return []
-        }
       },
       // 新专辑列表
       musicList: {
         type: Array,
-        default: function () {
-          return []
-        }
       },
       //华语新歌列表
       newSongs: {
         type: Array,
-        default: function () {
-          return []
-        }
       },
       //轮播图列表
       images: {
         type: Array,
-        default: function () {
-          return []
-        }
       },
+      // 音乐电台列表
+      radioList: {
+        type: Array,
+      }
     },
 
   }
@@ -164,6 +156,15 @@
     align-items: center;
   }
 
+  .radioImage {
+    width: 50px;
+    height: 50px;
+  }
+
+  /deep/.radioImage>img {
+    border-radius: 0;
+  }
+
   .image>h5 {
     display: block;
     text-align: center;
@@ -180,5 +181,23 @@
     text-overflow: ellipsis;
     overflow: hidden;
     margin-bottom: 10px;
+  }
+
+  .tabsTitle>div {
+    display: block;
+    width: 100%;
+    height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tabsTitle>span {
+    color: #909399;
+    font-size: 14px;
+  }
+
+  .radioes {
+    padding: 10px 0;
   }
 </style>
