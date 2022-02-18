@@ -1,4 +1,4 @@
-<!-- musicList子组件父组件 -->
+<!-- musicList父组件 -->
 <template>
   <div>
     <!-- 父传子组件 -->
@@ -77,7 +77,6 @@
           // console.log(this.bannerImages,'轮播图');
         })
 
-
       },
       // 音乐电台
       getDjCategory (item) {
@@ -98,8 +97,6 @@
       getDj3 () {
         return this.getDjCategory(3);
       }
-
-
 
     }
   }

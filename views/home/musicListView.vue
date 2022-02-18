@@ -83,7 +83,7 @@
         </el-col>
       </el-row>
       <!-- 音乐电台 -->
-      <el-tabs v-model="activeName" type="card" :stretch="true">
+      <el-tabs v-model="activeName" type="border-card" :stretch="true">
         <el-tab-pane :name="radioTitle[index]" :label="radioTitle[index]" v-for="(item,index) in radioList"
           :key="index">
           <router-link tag="div" :to="{name:'radioDetails',params:{id:item[index].id}}" class="radioes"
@@ -101,6 +101,7 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <el-backtop></el-backtop>
   </div>
 </template>
 
@@ -161,7 +162,7 @@
     height: 50px;
   }
 
-  /deep/.radioImage>img {
+  /deep/ .radioImage>img {
     border-radius: 0;
   }
 
