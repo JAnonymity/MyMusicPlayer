@@ -3,6 +3,7 @@
     <el-input v-model="username" placeholder="请输入内容"></el-input>
     <el-input v-model="password" placeholder="请输入内容"></el-input>
     <el-button type="primary" @click="loginHandle()">主要按钮</el-button>
+    <!-- 哈哈哈 -->
   </div>
 </template>
 
